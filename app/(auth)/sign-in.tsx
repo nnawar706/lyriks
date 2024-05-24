@@ -1,18 +1,42 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, Alert } from 'react-native'
 import React, { useState } from 'react'
 import ParallaxScrollView from '@/components/ParallaxScrollView'
 import Images from '@/constants/Images'
 import { Link } from 'expo-router'
 import Button from '@/components/Button'
 import InputField from '@/components/InputField'
+import { authUser, signIn } from '@/lib/appwrite'
 
-const signIn = () => {
+const SignIn = () => {
   const [submitting, setSubmitting] = useState<boolean>(false)
   const [form, setForm] = useState({
     email: '', password: ''
   })
 
-  const handleSubmit = () => {}
+  const handleSubmit = async () => {
+    if (form.email == '' || form.password == '')
+      {
+        Alert.alert('Error', 'Both email and password are required.')
+        return
+      }
+
+      setSubmitting(true)
+
+      try {
+        await signIn({
+          email: form.email,
+          password: form.password
+        })
+
+        const response = authUser()
+      } catch (error) 
+      {
+        Alert.alert('Error', 'Something went wrong.')
+      } finally {
+        setSubmitting(false)
+        setForm({email: '', 'password': ''})
+      }
+  }
 
   return (
     <ParallaxScrollView>
@@ -65,4 +89,4 @@ const signIn = () => {
   )
 }
 
-export default signIn
+export default SignIn

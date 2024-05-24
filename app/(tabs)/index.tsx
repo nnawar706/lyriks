@@ -6,8 +6,13 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Images from '@/constants/Images';
+import { Redirect } from 'expo-router';
 
 export default function HomeScreen() {
+  const isLoggedIn = false
+
+  if (!isLoggedIn) return <Redirect href="/sign-in"/>
+
   return (
     // <ParallaxScrollView
     //   headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
